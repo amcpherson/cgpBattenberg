@@ -111,8 +111,13 @@ use Sanger::CGP::Vcf::VcfProcessLog;
       my $line = $_;
       chomp($line);
       next if($line =~ m/^\s+chr/);
-      my ($seg_no, $chr, $start, $end, $mt_cn_tot, $mt_cn_min, $mt_frac, $mt_cn_tot_sec, $mt_cn_min_sec, $mt_frac_sec) = (split('\s+',$line))[0,1,2,3,8,9,10,11,12,13];
+      my ($seg_no, $chr, $start, $end, $mt_cn_maj, $mt_cn_min, $mt_frac, $mt_cn_maj_sec, $mt_cn_min_sec, $mt_frac_sec) = (split('\s+',$line))[0,1,2,3,8,9,10,11,12,13];
 
+      my $mt_cn_tot = $mt_cn_maj + $mt_cn_min;
+      my $mt_cn_tot_sec = '.';
+      if ($mt_cn_maj_sec ne 'NA' && $mt_cn_min_sec ne 'NA') {
+        $mt_cn_tot_sec = $mt_cn_maj + $mt_cn_min;
+      }
       my $extended = {  'mt_fcf' => $mt_frac eq 'NA' ? '.' : $mt_frac,
                         'mt_tcs' => $mt_cn_tot_sec eq 'NA' ? '.' : $mt_cn_tot_sec,
                         'mt_mcs' => $mt_cn_min_sec eq 'NA' ? '.' : $mt_cn_min_sec,
