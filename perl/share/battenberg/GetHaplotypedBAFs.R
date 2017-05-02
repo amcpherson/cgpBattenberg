@@ -68,5 +68,6 @@ GetChromosomeBAFs<-function(chr, SNP_file, startHaplotypeFile,endHaplotypeFile, 
 	alt.count = alt.count[min_indices]
 
 	hetMutBAFs<-cbind(chr_name,filtered_snp_data[,2],alt.count/denom)
+	options(scipen=999);
 	write.table(hetMutBAFs,outfile,sep="\t",row.names=paste("snp",1:nrow(hetMutBAFs),sep=""),col.names=c("Chromosome","Position",samplename),quote=F)
 }
